@@ -12,7 +12,7 @@ services:
     build:
       context: ./php-fpm7.4
     image: inovationzone/php-fpm7.4
-    container_name: php-fpm
+    container_name: php-fpm7.4
     volumes:
       - /www:/var/www/   
   nginx:
