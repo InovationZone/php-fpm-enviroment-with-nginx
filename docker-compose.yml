@@ -1,7 +1,7 @@
 version: '3'
 
 networks: 
-  database:
+  dev-network:
 
 services:
   mysql:
@@ -12,22 +12,26 @@ services:
     volumes:
         - /db/mysql:/var/lib/mysql  
     restart: unless-stopped
-    networks:
-    - database
+    networks: 
+      - dev-network
   php-fpm7.4:
     build:
       context: ./php-fpm7.4
     image: inovationzone/php-fpm7.4
     container_name: php-fpm7.4
     restart: unless-stopped
+    networks: 
+      - dev-network
     volumes:
-      - /www:/var/www/   
+      - /www:/var/www/
   nginx:
     build:
       context: ./nginx
     image: inovationzone/nginx
     container_name: nginx
     restart: unless-stopped
+    networks: 
+      - dev-network
     ports:
       - "80:80"
       - "8443:443"
@@ -42,10 +46,10 @@ services:
     image: phpmyadmin/phpmyadmin
     container_name: phpmyadmin
     restart: unless-stopped
+    networks: 
+      - dev-network
     depends_on: 
       - mysql
-    networks: 
-      - database
     ports:
       - 8183:80
     environment: 
