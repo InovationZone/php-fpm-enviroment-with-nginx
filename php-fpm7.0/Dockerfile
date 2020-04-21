@@ -16,12 +16,13 @@ RUN composer global require hirak/prestissimo
 RUN apt-get install -y libxml2-dev \
     && docker-php-ext-install xml
 
-RUN apt-get install -y zlib1g-dev  \
+RUN apt-get update && apt-get install -y \
     libfreetype6-dev \
     libjpeg62-turbo-dev \
     libpng-dev \
-    && docker-php-ext-install gd
-
+    && docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/ \
+    && docker-php-ext-install -j$(nproc) gd
+    
 RUN apt-get install -y \
         libzip-dev \
         zip \
